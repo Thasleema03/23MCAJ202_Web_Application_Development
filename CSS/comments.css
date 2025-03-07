@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #03d3de, #56ab2f);
+    background: linear-gradient(to right, #ea589c, #ceacbf);
     padding: 20px;
     text-align: center;
 }
@@ -12,10 +12,16 @@ h1 {
 }
 
 form {
-    background: rgba(106, 100, 100, 0.5); 
+    background: rgba(118, 40, 40, 0.5); 
     padding: 20px;
     max-width: 400px;
     margin: auto;
+}
+label {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+    margin-top: 12px;
 }
 
 input, textarea {
@@ -24,24 +30,23 @@ input, textarea {
     margin: 10px 0;
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 5px;
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
     font-size: 16px;
+    font-weight: bold;
 }
 
-input::placeholder, textarea::placeholder {
-    color: rgba(255, 255, 255, 0.9);
+
+
+input[type="submit"] {
+   
+    background: #6f2252;
+
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+
 }
 
-button {
-    background: #058249;
-    color: white;
-    padding: 12px 15px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    
-}
-button:hover{
-    background-color: #00361e;
+input[type="submit"]:hover {
+    background: #510831;
+
 }
