@@ -3,44 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-
-
+    <title>Form</title>
 </head>
 <body>
-<form>
+    <form>
         <h1>FORM</h1>
-        Enter Name: <input type="text" placeholder="Enter your name"><br><br>
 
-        Enter Email: <input type="email" placeholder="Enter your Email"><br><br>
+        <label for="name">Enter Name:</label> 
+        <input type="text" id="name" name="name" placeholder="Enter your name" required><br><br>
 
-        Enter Phone: <input type="tel" placeholder="Enter your Phone number"><br><br>
+        <label for="email">Enter Email:</label> 
+        <input type="email" id="email" name="email" placeholder="Enter your Email" required><br><br>
 
-        Enter password: <input type="password" placeholder="Enter your Password"><br><br>
+        <label for="phone">Enter Phone:</label> 
+        <input type="tel" id="phone" name="phone" placeholder="Enter your Phone number" pattern="[0-9]{10}" required><br><br>
 
-        Select qualification: 
-        <select name="qualification">
+        <label for="password">Enter Password:</label> 
+        <input type="password" id="password" name="password" placeholder="Enter your Password" required><br><br>
+
+        <label for="qualification">Select Qualification:</label>
+        <select id="qualification" name="qualification">
             <option value="highschool">High School</option>
             <option value="bachelor">Bachelor's Degree</option>
             <option value="master">Master's Degree</option>
             <option value="phd">PhD</option>
             <option value="other">Other</option>
         </select><br><br>
-        
-        Select gender: <input type="radio" name="gender" value="male">Male
-        <input type="radio" name="gender" value="female">Female
-        <input type="radio" name="gender" value="other">Other<br><br>
 
-        Message: <textarea placeholder="Enter your message"></textarea><br><br>
+        <label>Select Gender:</label>
+        <input type="radio" id="male" name="gender" value="male"> <label for="male">Male</label>
+        <input type="radio" id="female" name="gender" value="female"> <label for="female">Female</label>
+        <input type="radio" id="other" name="gender" value="other"> <label for="other">Other</label><br><br>
 
-        Date of birth: <input type="date"><br><br>
+        <label for="message">Message:</label> 
+        <textarea id="message" name="message" placeholder="Enter your message"></textarea><br><br>
 
-        Upload a resume: <input type="file"><br><br>
+        <label for="dob">Date of Birth:</label> 
+        <input type="date" id="dob" name="dob"><br><br>
 
-        Choose your favourite color: <input type="color"><br><br>
+        <label for="resume">Upload Resume:</label> 
+        <input type="file" id="resume" name="resume" ><br><br>
 
-        Subscribe to newsletter: <input type="checkbox"><br><br>
+        <label for="color">Choose Your Favourite Color:</label> 
+        <input type="color" id="color" name="color"><br><br>
+
+        <label for="newsletter">Subscribe to Newsletter:</label> 
+        <input type="checkbox" id="newsletter" name="newsletter"><br><br>
 
         <input type="reset" value="Reset">
         <input type="submit" value="Submit">
