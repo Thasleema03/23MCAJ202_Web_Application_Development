@@ -1,8 +1,37 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+nav {
+    padding: 15px 40px;
+    background: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+}
+
+nav ul li {
+    margin: 0 25px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    padding: 10px;
+}
+
+nav ul li a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
 }
 
 .hero-section {
@@ -11,18 +40,25 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    color: rgb(255, 255, 255);
+    background: rgba(0, 0, 0, 0.5);
 }
 
-.hero-section h1 {
-    font-size: 36px;
-}
-
-.hero-section p {
-    font-size: 22px;
-    margin: 10px 0;
+.cta-button {
+    background: #003b6b;
+    color: white;
+    font-size: 18px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
 }
 
 .cta-button:hover {
-    background: #701854;
+    background: #244a90;
 }
+
+
+
+

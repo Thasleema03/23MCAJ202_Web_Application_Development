@@ -4,19 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration Form</title>
-    
     <link rel="stylesheet" href="registration.css">
 </head>
 <body>
     <h1>Registration Form</h1>
     <form>
-        <input type="text" placeholder="Enter your full name" required>
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required>
         
-        <input type="email" placeholder="Enter your email" required>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
 
-        <input type="password" placeholder="Enter your password" required>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
 
-        <input type="password" placeholder="confirm your password" required>
+        <label for="confirm-password">Confirm Password</label>
+        <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
         
         <input type="submit" value="Register">
     </form>
