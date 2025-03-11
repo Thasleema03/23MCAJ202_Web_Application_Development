@@ -1,0 +1,11 @@
+/* External CSS - Button Styling */
+.cta-button {
+    background: #5105dd;
+    color: white;
+    border: none;
+    padding: 12px 20px; /* Adds space inside the button: 12px (top & bottom), 20px (left & right) */
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+}
+

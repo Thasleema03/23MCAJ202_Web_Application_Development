@@ -3,42 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Hub</title>
-    <link rel="stylesheet" href="index.css">
+    <title>Welcome Page</title>
 
+    <!-- External CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Internal CSS -->
     <style>
-        * {
-            margin: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
         body {
-            background-image: url("techy.jpg");
-            background-size: cover;
-            background-repeat: no-repeat;
+            background: linear-gradient(to right, #a274d3, #4b7ed8); /* Gradient background */
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 120px; 
+
         }
 
-     
+        h2 {
+            font-size: 28px;
+            color: #02125a;
+        }
+
+        p {
+            font-size: 18px;
+            max-width: 600px; 
+            margin: 10px auto; /* Centering(Top & Bottom margin is 10px.Left & Right margins are automatically adjusted) */
+            color: #fff;
+            line-height: 1.5; /* Spacing between lines */
+        }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">TECH HUB</div>
-        <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#resources">Resources</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li><a href="#login">Login</a></li>
-        </ul>
-    </nav>
+    <!-- Inline CSS for heading -->
+    <h1 style="font-size: 50px; font-weight: bold; text-transform: uppercase; color: #ebebeb;">
+        Welcome to Our Website
+    </h1>
 
-    <section id="index" class="hero-section">
-        <h1 style="font-size: 42px;">Welcome to Tech Hub</h1>
-        <p style="font-size: 17px; font-weight: bold;">Your source for the latest tech news and innovations</p>
-        <button class="cta-button">Get Started</button>
-    </section>
+    <!-- Internal CSS applies here -->
+    <h2>Your journey to learning starts here</h2>
+
+    <p>
+        We provide high-quality tutorials, guides, and resources to help you become a pro at web development.
+        Start your journey today and explore the endless possibilities of the digital world.
+    </p>
+
+    <!-- External CSS applies here -->
+    <button class="cta-button">Get Started</button>
 
 </body>
 </html>

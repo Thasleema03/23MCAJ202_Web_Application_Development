@@ -4,20 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Comment Page</title>
-    <link rel="stylesheet" href="comments.css">
+    <link rel="stylesheet" href="comments.css"> <!-- Link to external CSS file -->
 </head>
 <body>
-    <h1>Leave a Comment</h1>
+    <h1>Leave a Comment</h1> <!-- Main heading for the page -->
+
     <form>
+        <!-- Comment input field -->
         <label for="comment">Comment</label>
-        <textarea required placeholder="Write your comment here..."></textarea>
-        
+        <textarea id="comment" name="comment" required placeholder="Write your comment here..."></textarea>
+
+        <!-- Username input field -->
         <label for="username">Username</label>
-        <input type="text" required placeholder="Enter your username">
-        
+        <input type="text" id="username" name="username" required placeholder="Enter your username">
+
+        <!-- Email input field -->
         <label for="email">Email</label>
-        <input type="email" required placeholder="Enter your email">        
+        <input type="email" id="email" name="email" required placeholder="Enter your email">        
         
+        <!-- Submit button -->
         <input type="submit" value="Submit">
     </form>
 </body>
