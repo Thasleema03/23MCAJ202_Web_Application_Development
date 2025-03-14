@@ -11,7 +11,7 @@ h1 {
 }
 
 form {
-    background: rgba(118, 40, 40, 0.5); /* Semi-transparent dark red background */
+    background: rgba(118, 40, 40, 0.5); 
     padding: 20px; /* Adds padding inside the form */
     max-width: 400px; 
     margin: auto; /* Centers the form horizontally */
@@ -42,6 +42,10 @@ input[type="submit"] {
     border-radius: 20px; /* Rounds the submit button corners */
 }
 
+small{
+    color: rgb(61, 0, 0);
+}
+
 input[type="submit"]:hover {
-    background: #510831; /* Darkens the background color on hover */
+    background: #510831;
 }
