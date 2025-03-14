@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #eb83b4, #77d0e6); /* Gradient background transitioning from pink to light blue */
+    background: linear-gradient(to right, #eb83b4, #77d0e6);
     padding: 20px; /* Adds padding around the content */
     text-align: center; /* Centers text alignment */
 }
@@ -30,7 +30,7 @@ input, textarea {
     padding: 12px; /* Adds padding inside the input fields */
     margin: 10px 0; /* Adds vertical margin for spacing */
     border-radius: 5px; /* Rounds the input field corners */
-    border: none; /* Removes the border */
+    border: none;
     font-size: 16px; 
     font-weight: bold; 
 }

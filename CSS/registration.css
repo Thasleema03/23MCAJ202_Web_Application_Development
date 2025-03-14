@@ -1,17 +1,17 @@
 body {
     font-family: Arial, sans-serif; 
-    background: linear-gradient(to right, #03d3de, #56ab2f); /* Gradient background transitioning from cyan to green */
+    background: linear-gradient(to right, #03d3de, #56ab2f); 
     padding: 20px; /* Adds spacing around the content */
     text-align: center; /* Centers text alignment */
 }
 
 h1 {
     color: white; /* Sets the text color to white */
-    font-size: 38px; /* Sets the font size */
+    font-size: 38px; 
 }
 
 form {
-    background: rgba(106, 100, 100, 0.5); /* Semi-transparent gray background */
+    background: rgba(106, 100, 100, 0.5); 
     padding: 20px; /* Adds padding inside the form */
     max-width: 400px;
     margin: auto; /* Centers the form horizontally */
@@ -29,14 +29,14 @@ input {
     padding: 12px; /* Adds padding inside the input fields */
     margin: 10px; /* Adds spacing around inputs */
     border-radius: 5px; /* Rounds the input field corners */
-    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white background */
+    background: rgba(255, 255, 255, 0.2); 
     color: rgb(0, 0, 0); 
-    font-size: 16px; /* Sets the font size */
+    font-size: 16px; 
     border: none; /* Removes the border */
 }
 
 input::placeholder {
-    color: rgba(37, 34, 34, 0.9); /* Dark gray placeholder text */
+    color: rgba(37, 34, 34, 0.9); 
 }
 
 input[type="submit"] {
@@ -44,5 +44,5 @@ input[type="submit"] {
     color: white; 
     font-size: 16px; 
     font-weight: bold;
-    border-radius: 25px; /* Rounds the submit button corners */
+    border-radius: 25px; 
 }
