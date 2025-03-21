@@ -1,0 +1,189 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symmetric Matrix Checker</title>
+
+    <!-- css -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .matrix-container {
+            display: inline-block;
+            margin-top: 15px;
+        }
+        table {
+            border-collapse: collapse;
+            margin: 10px auto;
+        }
+        td {
+            border: 2px solid black;
+            padding: 5px;
+        }
+        input {
+            width: 50px;
+            height: 40px;
+            text-align: center;
+            font-size: 16px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            background: blue;
+            color: white;
+            border-radius: 5px;
+            border: none;
+        }
+        button:hover {
+            background: darkblue;
+        }
+        #result {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        #sizeInfo {
+            font-size: 16px;
+            margin-left: 10px;
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h2>Check if a Matrix is Symmetric</h2>
+
+    <!-- Input fields for defining matrix size -->
+    <label>Rows:</label>
+    <input type="number" id="rows" min="1" max="10" onchange="updateSizeInfo()">
+    <label>Columns:</label>
+    <input type="number" id="cols" min="1" max="10" onchange="updateSizeInfo()">
+    <span id="sizeInfo"></span> <!-- Displays selected matrix size -->
+    <br>
+    <button onclick="generateMatrix()">Create Matrix</button> 
+
+    <div class="matrix-container" id="matrixContainer"></div>
+
+    <button onclick="checkSymmetry()">Check Symmetry</button>
+    <p id="result"></p>
+
+    <!-- javascript -->
+    <script>
+        function updateSizeInfo() {
+            let rows = document.getElementById("rows").value;
+            let cols = document.getElementById("cols").value;
+            let sizeInfo = document.getElementById("sizeInfo");
+
+            if (!rows || !cols) {
+                sizeInfo.innerText = "";
+                return;
+            }
+
+            sizeInfo.innerText = `Size: ${rows} x ${cols}`;
+
+            // Display a warning if the user tries to input more than 10x10
+            if (rows > 10 || cols > 10) {
+                sizeInfo.style.color = "red";
+                sizeInfo.innerText += " (⚠️ Maximum size is 10x10)";
+            } else {
+                sizeInfo.style.color = "green";
+            }
+        }
+
+       
+        //  Generates a matrix based on user-defined row and column values.
+        
+        function generateMatrix() {
+            let rows = document.getElementById("rows").value;
+            let cols = document.getElementById("cols").value;
+            let container = document.getElementById("matrixContainer");
+
+            // Clear any previous matrix before generating a new one
+            container.innerHTML = "";
+
+            if (!rows || !cols) {
+                document.getElementById("result").innerText = "⚠️ Enter valid row and column values!";
+                return;
+            }
+
+            let table = document.createElement("table");
+
+            for (let i = 0; i < rows; i++) {
+                let row = document.createElement("tr");
+
+                for (let j = 0; j < cols; j++) {
+                    let cell = document.createElement("td");
+                    let input = document.createElement("input");
+                    input.type = "number";
+                    input.min = "0";
+                    input.placeholder = "0"; // Placeholder instead of value for better UX
+
+                    cell.appendChild(input);
+                    row.appendChild(cell);
+                }
+
+                table.appendChild(row);
+            }
+
+            // Append the dynamically created table to the matrix container
+            container.appendChild(table);
+        }
+
+        
+        //   Checks whether the generated matrix is symmetric.
+         
+        function checkSymmetry() {
+            let table = document.querySelector("table");
+
+            // Ensure a matrix has been generated before checking
+            if (!table) {
+                document.getElementById("result").innerText = "❗ Please create a matrix first!";
+                return;
+            }
+
+            let rows = table.rows.length;
+            let cols = table.rows[0].cells.length;
+
+            // Symmetric matrices must be square (same number of rows and columns)
+            if (rows !== cols) {
+                document.getElementById("result").innerText = "⚠️ Matrix must be square (rows = columns)!";
+                return;
+            }
+
+            let matrix = [];
+
+            // Extract values from the matrix input fields and store them in a 2D array
+            for (let i = 0; i < rows; i++) {
+                matrix[i] = [];
+                for (let j = 0; j < cols; j++) {
+                    let value = table.rows[i].cells[j].querySelector("input").value;
+                    matrix[i][j] = Number(value);
+                }
+            }
+
+            // Check for symmetry: matrix[i][j] must equal matrix[j][i]
+            let isSymmetric = true;
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    if (matrix[i][j] !== matrix[j][i]) {
+                        isSymmetric = false;
+                        break;
+                    }
+                }
+                if (!isSymmetric) break; // Stop checking once asymmetry is found
+            }
+
+            // Display the result based on the symmetry check
+            document.getElementById("result").innerText = isSymmetric 
+                ? "✅ The matrix is symmetric!" 
+                : "❌ The matrix is not symmetric!";
+        }
+    </script>
+</body>
+</html>

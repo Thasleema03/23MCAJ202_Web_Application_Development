@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    
+    <!--  CSS -->
+    <style>
+        /* Apply a clean, modern font and center form */
+        body {
+            font-family: "Poppins", Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: rgb(0, 255, 200); 
+            margin: 0;
+            color: #ffffff;
+        }
+
+        /* Form container */
+        .container {
+            width: 90%;
+            max-width: 400px;
+            padding: 25px;
+            background: rgb(19, 18, 18); 
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Heading styling */
+        h1 {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        /* Label styling */
+        label {
+            font-size: 16px;
+            font-weight: 500;
+            color: #ffffff;
+            display: block;
+            text-align: left;
+            margin: 8px 0 4px;
+        }
+
+        /* Input fields */
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 6px 0;
+            border: 1px solid #ccc; 
+            border-radius: 6px;
+            font-size: 14px;
+            background: #333; 
+            color: white; 
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+
+        /* Input focus effect */
+        input:focus {
+            border-color: #00ffcc; 
+            outline: none;
+            box-shadow: 0 0 6px rgba(0, 255, 200, 0.7);
+        }
+
+        /* Error messages */
+        .error {
+            color: red;
+            font-size: 14px;
+            text-align: left;
+            display: block;
+            margin-top: -5px;
+        }
+
+        /* Submit button styling */
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background: #0c5a3e;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        /* Button hover effect */
+        button:hover {
+            background: #0a4128; 
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Main container for the registration form -->
+    <div class="container">
+        <h1>Registration Form</h1>
+        
+        <!-- Registration form -->
+        <form id="registrationForm">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name">
+            <span class="error" id="nameError"></span>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+            <span class="error" id="emailError"></span>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+            <span class="error" id="passwordError"></span>
+
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword">
+            <span class="error" id="confirmPasswordError"></span>
+
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+    <!--  JavaScript -->
+    <script>
+        document.getElementById("registrationForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+            let isValid = true;
+
+            // Clear previous error messages
+            document.querySelectorAll(".error").forEach(function(element) {
+                    element.textContent = "";
+            });
+
+
+            // Name Validation (Only Alphabets & Spaces, Min 3 Characters)
+            let name = document.getElementById("name").value.trim();
+            let namePattern = /^[A-Za-z ]{3,}$/;
+            if (name === "") {
+                document.getElementById("nameError").textContent = "Name is required.";
+                isValid = false;
+            } else if (!name.match(namePattern)) {
+                document.getElementById("nameError").textContent = "Enter a valid name (only letters & spaces, min 3 characters).";
+                isValid = false;
+            }
+
+            // Email Validation
+            let email = document.getElementById("email").value.trim();
+            let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+            if (email === "") {
+                document.getElementById("emailError").textContent = "Email is required.";
+                isValid = false;
+            } else if (!email.match(emailPattern)) {
+                document.getElementById("emailError").textContent = "Invalid email format.";
+                isValid = false;
+            }
+
+            // Password Validation (Min 6 characters, 1 letter, 1 number, 1 special character)
+            let password = document.getElementById("password").value;
+            let passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+            if (!password.match(passwordPattern)) {
+                document.getElementById("passwordError").textContent = "Password must be atleast 6 characters, include a letter, number & special character.";
+                isValid = false;
+            }
+
+            // Confirm Password Validation
+            let confirmPassword = document.getElementById("confirmPassword").value;
+            if (confirmPassword === "") {
+                document.getElementById("confirmPasswordError").textContent = "Confirm Password is required.";
+                isValid = false;
+            } else if (password !== confirmPassword) {
+                document.getElementById("confirmPasswordError").textContent = "Passwords do not match.";
+                isValid = false;
+            }
+
+            // If all fields are valid, submit the form
+            if (isValid) {
+                alert("Registration Successful!");
+                document.getElementById("registrationForm").reset();
+            }
+        });
+    </script>
+
+</body>
+</html>
