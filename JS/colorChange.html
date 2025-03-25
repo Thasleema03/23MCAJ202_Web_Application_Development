@@ -38,9 +38,12 @@
     <h1>Click the Button to Change Background Color</h1>
     <button onclick="changeBackgroundColor()">Change Color</button>
     
+    <!-- JavaScript -->
     <script>
         function changeBackgroundColor() {
+            // Generate a random hexadecimal color
             const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+             // Apply the random color as the new background color
             document.body.style.backgroundColor = randomColor;
         }
     </script>
