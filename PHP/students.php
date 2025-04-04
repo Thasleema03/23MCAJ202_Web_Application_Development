@@ -2,95 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Name List</title>
-<!-- CSS -->
+    <title>Student Name Array - print_r & Sorting</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
+            background-color: #f0f4f8;
             padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh; 
         }
-        .container {
-            width: 60%; 
-            max-width: 1000px;
-            background: white;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            text-align: center;
+        .output-box {
+            background-color: #ffffff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 5px solid #007BFF;
         }
         h2 {
-            color: #333;
-            margin-bottom: 10px;
+            color: #007BFF;
         }
-        .tables {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-        }
-        table {
-            width: 30%; 
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #007BFF;
-            color: white;
-        }
-        td {
-            background-color: #f9f9f9;
+        pre {
+            background-color: #f8f8f8;
+            padding: 10px;
+            overflow: auto;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Student Name List</h2>
 
-        <?php
-        // Array of student names
-        $students = array("Anu", "Vimal", "Joseph", "Meera", "Amal");
+    <h2>Student Names</h2>
 
-        // Store the original array before sorting
-        $original_students = $students;
+    <?php
+    // Step 1: Store student names in an array
+    $students = array("Anu", "Vimal", "Joseph", "Meera", "Amal");
 
-        // Function to display a table
-        function displayTable($title, $array) {
-            echo "<div>";
-            echo "<h3>$title</h3>";
-            echo "<table>";
-            echo "<tr><th>Index</th><th>Name</th></tr>";
-            foreach ($array as $index => $name) {
-                echo "<tr><td>$index</td><td>$name</td></tr>";
-            }
-            echo "</table></div>";
-        }
+    // Step 2: Display original array
+    echo "<div class='output-box'>";
+    echo "<h3>Original Array:</h3>";
+    echo "<pre>";
+    print_r($students);
+    echo "</pre>";
+    echo "</div>";
 
-        echo "<div class='tables'>";
-        
-        // Display original array
-        displayTable("Original Order", $original_students);
+    // Step 3: Sort in ascending order using asort()
+    $ascending = $students;
+    asort($ascending);
+    echo "<div class='output-box'>";
+    echo "<h3>Ascending Order (asort):</h3>";
+    echo "<pre>";
+    print_r($ascending);
+    echo "</pre>";
+    echo "</div>";
 
-        // Sort ascending and display
-        asort($students);
-        displayTable("Ascending Order", $students);
+    // Step 4: Sort in descending order using arsort()
+    $descending = $students;
+    arsort($descending);
+    echo "<div class='output-box'>";
+    echo "<h3>Descending Order (arsort):</h3>";
+    echo "<pre>";
+    print_r($descending);
+    echo "</pre>";
+    echo "</div>";
+    ?>
 
-        // Sort descending and display
-        arsort($students);
-        displayTable("Descending Order", $students);
-
-        echo "</div>";
-        ?>
-    </div>
 </body>
 </html>
