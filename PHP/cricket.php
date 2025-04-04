@@ -1,12 +1,9 @@
 <?php
-// Array of Indian Cricket Players
+// Array of Indian Cricket Players (unsorted, as per question)
 $players = [
-    "Virat Kohli", "Rohit Sharma", "MS Dhoni", "Sachin Tendulkar", "Rahul Dravid", 
-    "Kapil Dev", "Sourav Ganguly", "Yuvraj Singh", "Hardik Pandya", "Jasprit Bumrah"
+    "Virat Kohli", "MS Dhoni","Sachin Tendulkar","Rohit Sharma","Yuvraj Singh", "Rahul Dravid", "Hardik Pandya",
+    "Kapil Dev", "Sourav Ganguly", "Jasprit Bumrah"
 ];
-
-// Sort the array in ascending order
-asort($players);
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +16,7 @@ asort($players);
     <style>
         body {
             font-family: Arial, sans-serif;
-            background:rgb(0, 10, 43);
+            background: rgb(0, 10, 43);
             text-align: center;
             padding: 20px;
         }
@@ -62,20 +59,17 @@ asort($players);
         <!-- Table to display player list -->
         <table>
             <tr>
-                <!-- Table headers -->
                 <th>SI. No</th>
                 <th>Player Name</th>
             </tr>
 
             <!-- PHP loop to display each player's name -->
             <?php 
-            $count = 1; // Initialize serial number
-            foreach ($players as $player) { // Loop through each player
+            $count = 1;
+            foreach ($players as $player) {
             ?>
                 <tr>
-                    <!-- Display serial number -->
                     <td><?php echo $count++; ?></td>
-                    <!-- Display player name -->
                     <td><?php echo $player; ?></td>
                 </tr>
             <?php } ?>
@@ -83,4 +77,3 @@ asort($players);
     </div>
 </body>
 </html>
-
