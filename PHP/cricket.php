@@ -1,5 +1,5 @@
 <?php
-// Array of Indian Cricket Players (unsorted, as per question)
+// Array of Indian Cricket Players
 $players = [
     "Virat Kohli", "MS Dhoni","Sachin Tendulkar","Rohit Sharma","Yuvraj Singh", "Rahul Dravid", "Hardik Pandya",
     "Kapil Dev", "Sourav Ganguly", "Jasprit Bumrah"
