@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: rgb(0, 255, 200); 
+            background: linear-gradient(to right,rgb(6, 78, 56),rgb(3, 105, 110)); 
             margin: 0;
             color: #ffffff;
         }
