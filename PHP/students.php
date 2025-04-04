@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Student Name Array - print_r & Sorting</title>
+    <title>Student Name </title>
     <style>
         body {
             font-family: Arial, sans-serif;
