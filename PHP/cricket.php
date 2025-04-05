@@ -1,56 +1,53 @@
 <?php
-session_start();
 $error = "";
+$num_players = "";
+$player_names = [];
 
-// Step 1: Handle form submissions
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Step 1: Get number of players
-    if (isset($_POST['num_players'])) {
-        $_SESSION['num_players'] = intval($_POST['num_players']);
-        $_SESSION['players'] = null;
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit();
+    // Reset everything
+    if (isset($_POST['reset'])) {
+        $num_players = "";
+        $player_names = [];
+        $error = "";
     }
 
-    // Step 2: Get players
-    if (isset($_POST['players'])) {
-        $valid = true;
-        $player_names = [];
+    // If number of players is submitted
+    elseif (isset($_POST['num_players'])) {
+        $num_players = intval($_POST['num_players']);
+        if ($num_players <= 0) {
+            $error = "Please enter a valid number of players.";
+            $num_players = "";
+        }
+    }
 
+    // If player names are submitted
+    elseif (isset($_POST['players'])) {
+        $valid = true;
         foreach ($_POST['players'] as $name) {
             $trimmed = trim($name);
             if (!preg_match("/^[a-zA-Z\s]+$/", $trimmed)) {
                 $valid = false;
-                $error = "Only letters and spaces are allowed in player names.";
+                $error = "Only letters and spaces allowed in names.";
                 break;
             }
             $player_names[] = $trimmed;
         }
 
-        if ($valid) {
-            $_SESSION['players'] = $player_names;
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit();
+        if (!$valid) {
+            $num_players = count($_POST['players']); // retain for redisplay
+            $player_names = []; // clear to re-enter
         }
     }
 }
-
-// Reset all session data
-if (isset($_GET['reset'])) {
-    session_destroy();
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit();
-}
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Indian Cricket Players</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right,rgb(68, 91, 126),rgb(49, 132, 136));
+            font-family: Arial;
+            background: #e0f2f1;
             padding: 40px;
             display: flex;
             justify-content: center;
@@ -59,18 +56,14 @@ if (isset($_GET['reset'])) {
             background: white;
             padding: 30px;
             border-radius: 10px;
-            max-width: 600px;
             width: 100%;
+            max-width: 500px;
             box-shadow: 0 0 10px rgba(0,0,0,0.15);
         }
-        h2 {
-            color: #007bff;
-            margin-bottom: 20px;
-        }
         input[type="number"], input[type="text"] {
-            padding: 10px;
             width: 100%;
-            margin-bottom: 15px;
+            padding: 10px;
+            margin: 10px 0;
             font-size: 16px;
         }
         .btn-row {
@@ -79,17 +72,20 @@ if (isset($_GET['reset'])) {
             gap: 10px;
         }
         button {
-            padding: 10px;
             flex: 1;
-            background: #007bff;
-            border: none;
-            color: white;
+            padding: 10px;
             font-size: 16px;
-            cursor: pointer;
+            border: none;
+            background: #007bff;
+            color: white;
             border-radius: 5px;
         }
         button:hover {
             background: #0056b3;
+        }
+        .error {
+            color: red;
+            margin: 10px 0;
         }
         table {
             width: 100%;
@@ -105,11 +101,7 @@ if (isset($_GET['reset'])) {
             color: white;
         }
         tr:nth-child(even) {
-            background: #f2f2f2;
-        }
-        .error {
-            color: red;
-            margin-bottom: 15px;
+            background: #f9f9f9;
         }
     </style>
 </head>
@@ -117,46 +109,43 @@ if (isset($_GET['reset'])) {
 <div class="container">
     <h2>Indian Cricket Players</h2>
 
-    <?php if (!isset($_SESSION['num_players'])): ?>
-        <!-- number of players -->
-        <form method="POST">
-            <label for="num_players">Enter number of players:</label>
+    <?php if (!empty($error)): ?>
+        <div class="error"><?= $error ?></div>
+    <?php endif; ?>
+
+    <!-- Step 1: Get number of players -->
+    <?php if ($num_players === "" && empty($player_names)): ?>
+        <form method="post">
+            <label>Enter number of players:</label>
             <input type="number" name="num_players" min="1" required>
             <button type="submit">Next</button>
         </form>
 
-    <?php elseif (!isset($_SESSION['players'])): ?>
-        <!-- player names -->
-        <?php if ($error): ?>
-            <div class="error"><?= $error ?></div>
-        <?php endif; ?>
-        <form method="POST">
-            <?php for ($i = 0; $i < $_SESSION['num_players']; $i++): ?>
+    <!-- Step 2: Get player names -->
+    <?php elseif (empty($player_names)): ?>
+        <form method="post">
+            <?php for ($i = 0; $i < $num_players; $i++): ?>
                 <input type="text" name="players[]" placeholder="Player <?= $i + 1 ?>" required>
             <?php endfor; ?>
             <div class="btn-row">
                 <button type="submit">Submit</button>
-                <button type="button" onclick="window.location.href='<?= $_SERVER['PHP_SELF'] ?>?reset=1'">Back</button>
+                <button type="submit" name="reset">Back</button>
             </div>
         </form>
 
+    <!-- Step 3: Show result table -->
     <?php else: ?>
-        <!--  Display table -->
         <table>
-            <tr>
-                <th>SI. No</th>
-                <th>Player Name</th>
-            </tr>
-            <?php foreach ($_SESSION['players'] as $index => $player): ?>
+            <tr><th>SI. No</th><th>Player Name</th></tr>
+            <?php foreach ($player_names as $index => $name): ?>
                 <tr>
                     <td><?= $index + 1 ?></td>
-                    <td><?= htmlspecialchars($player) ?></td>
+                    <td><?= htmlspecialchars($name) ?></td>
                 </tr>
             <?php endforeach; ?>
         </table>
-        <br>
-        <form method="GET">
-            <button type="submit" name="reset" value="1">Enter Again</button>
+        <form method="post" style="margin-top: 20px;">
+            <button type="submit" name="reset">Enter Again</button>
         </form>
     <?php endif; ?>
 </div>
