@@ -12,7 +12,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
         }
 
@@ -87,7 +87,6 @@
 
         <!-- Form for user input -->
         <form method="POST">
-            <input type="number" name="id" placeholder="ID" required>
             <input type="text" name="name" placeholder="Name" required>
             <input type="number" name="age" placeholder="Age" required>
             <input type="text" name="course" placeholder="Course" required>
@@ -96,36 +95,58 @@
 
         <?php
         // Connect to MySQL database
-        $conn = mysqli_connect("localhost", "root", "", "mycollege");
+        $conn = mysqli_connect("localhost", "root", "", "college_students");
 
         // If connection fails, show error message
         if (!$conn) {
             die("Connection failed: " . mysqli_connect_error());
         }
 
-        // Insert data into the database when form is submitted
+        // Handle form submission
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $id = $_POST["id"];
-            $name = $_POST["name"];
-            $age = $_POST["age"];
-            $course = $_POST["course"];
+            $name = trim($_POST['name']);
+            $age = trim($_POST['age']);
+            $course = trim($_POST['course']);
 
-            $insert_sql = "INSERT INTO students (id, name, age, course) VALUES ('$id', '$name', '$age', '$course')";
-            if (mysqli_query($conn, $insert_sql)) {
-                echo "<p style='color: green;'>Student added successfully!</p>";
+            $errors = [];
+
+            // Name validation
+            if (!preg_match("/^[a-zA-Z\s]+$/", $name)) {
+                $errors[] = "Invalid name. Only letters and spaces are allowed.";
+            }
+
+            // Age validation
+            if (!is_numeric($age) || $age < 1 || $age > 120) {
+                $errors[] = "Invalid age. Please enter a number between 1 and 120.";
+            }
+
+            // Course validation
+            if (!preg_match("/^[a-zA-Z\s]+$/", $course)) {
+                $errors[] = "Invalid course. Only letters and spaces are allowed.";
+            }
+
+            // Display errors or insert into DB
+            if (!empty($errors)) {
+                foreach ($errors as $error) {
+                    echo "<p style='color:red;'>$error</p>";
+                }
             } else {
-                echo "<p style='color: red;'>Error: " . mysqli_error($conn) . "</p>";
+                $sql = "INSERT INTO students (name, age, course) VALUES ('$name', $age, '$course')";
+                if (mysqli_query($conn, $sql)) {
+                    echo "<p style='color:green;'>Student added successfully.</p>";
+                } else {
+                    echo "<p style='color:red;'>Error: " . mysqli_error($conn) . "</p>";
+                }
             }
         }
 
-        // Retrieve and display data from the table
+        // Fetch and display student records
         $sql = "SELECT * FROM students";
         $result = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($result) > 0) {
             echo "<table>";
             echo "<tr><th>ID</th><th>Name</th><th>Age</th><th>Course</th></tr>";
-
             while ($row = mysqli_fetch_assoc($result)) {
                 echo "<tr>
                         <td>{$row['id']}</td>
@@ -134,13 +155,12 @@
                         <td>{$row['course']}</td>
                       </tr>";
             }
-
             echo "</table>";
         } else {
             echo "<p>No student records found.</p>";
         }
 
-        // Close the database connection
+        // Close DB connection
         mysqli_close($conn);
         ?>
     </div>
