@@ -1,9 +1,65 @@
+<?php
+// Connect to MySQL
+$conn = mysqli_connect("localhost", "root", "");
+
+//  Create database if it doesn't exist
+mysqli_query($conn, "CREATE DATABASE IF NOT EXISTS college_students");
+
+//  Select the database
+mysqli_select_db($conn, "college_students");
+
+// Create table if it doesn't exist
+$createTable = "CREATE TABLE IF NOT EXISTS students (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    age INT,
+    course VARCHAR(100)
+)";
+mysqli_query($conn, $createTable);
+
+//  Handle form submission
+$message = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = trim($_POST['name']);
+    $age = trim($_POST['age']);
+    $course = trim($_POST['course']);
+
+    $errors = [];
+
+    if (!preg_match("/^[a-zA-Z\s]+$/", $name)) {
+        $errors[] = "Invalid name. Only letters and spaces allowed.";
+    }
+    if (!is_numeric($age) || $age < 1 || $age > 120) {
+        $errors[] = "Invalid age. Enter a number between 1 and 120.";
+    }
+    if (!preg_match("/^[a-zA-Z\s]+$/", $course)) {
+        $errors[] = "Invalid course. Only letters and spaces allowed.";
+    }
+
+    if (empty($errors)) {
+        $sql = "INSERT INTO students (name, age, course) VALUES ('$name', $age, '$course')";
+        if (mysqli_query($conn, $sql)) {
+            $message = "<p style='color:green;'>Student added successfully.</p>";
+        } else {
+            $message = "<p style='color:red;'>Database error: " . mysqli_error($conn) . "</p>";
+        }
+    } else {
+        foreach ($errors as $err) {
+            $message .= "<p style='color:red;'>$err</p>";
+        }
+    }
+}
+
+// Fetch existing students
+$students = mysqli_query($conn, "SELECT * FROM students");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Student Information</title>
-    
+    <!-- CSS -->
     <style>
         body {
             background-color: #f7f7f7;
@@ -85,7 +141,10 @@
     <div class="container">
         <h2>Student Details</h2>
 
-        <!-- Form for user input -->
+        <!-- Display message if any -->
+        <?php echo $message; ?>
+
+        <!-- Form -->
         <form method="POST">
             <input type="text" name="name" placeholder="Name" required>
             <input type="number" name="age" placeholder="Age" required>
@@ -93,76 +152,23 @@
             <button type="submit">Add Student</button>
         </form>
 
-        <?php
-        // Connect to MySQL database
-        $conn = mysqli_connect("localhost", "root", "", "college_students");
-
-        // If connection fails, show error message
-        if (!$conn) {
-            die("Connection failed: " . mysqli_connect_error());
-        }
-
-        // Handle form submission
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $name = trim($_POST['name']);
-            $age = trim($_POST['age']);
-            $course = trim($_POST['course']);
-
-            $errors = [];
-
-            // Name validation
-            if (!preg_match("/^[a-zA-Z\s]+$/", $name)) {
-                $errors[] = "Invalid name. Only letters and spaces are allowed.";
-            }
-
-            // Age validation
-            if (!is_numeric($age) || $age < 1 || $age > 120) {
-                $errors[] = "Invalid age. Please enter a number between 1 and 120.";
-            }
-
-            // Course validation
-            if (!preg_match("/^[a-zA-Z\s]+$/", $course)) {
-                $errors[] = "Invalid course. Only letters and spaces are allowed.";
-            }
-
-            // Display errors or insert into DB
-            if (!empty($errors)) {
-                foreach ($errors as $error) {
-                    echo "<p style='color:red;'>$error</p>";
-                }
-            } else {
-                $sql = "INSERT INTO students (name, age, course) VALUES ('$name', $age, '$course')";
-                if (mysqli_query($conn, $sql)) {
-                    echo "<p style='color:green;'>Student added successfully.</p>";
-                } else {
-                    echo "<p style='color:red;'>Error: " . mysqli_error($conn) . "</p>";
-                }
-            }
-        }
-
-        // Fetch and display student records
-        $sql = "SELECT * FROM students";
-        $result = mysqli_query($conn, $sql);
-
-        if (mysqli_num_rows($result) > 0) {
-            echo "<table>";
-            echo "<tr><th>ID</th><th>Name</th><th>Age</th><th>Course</th></tr>";
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo "<tr>
-                        <td>{$row['id']}</td>
-                        <td>{$row['name']}</td>
-                        <td>{$row['age']}</td>
-                        <td>{$row['course']}</td>
-                      </tr>";
-            }
-            echo "</table>";
-        } else {
-            echo "<p>No student records found.</p>";
-        }
-
-        // Close DB connection
-        mysqli_close($conn);
-        ?>
+        <!-- Table of students -->
+        <?php if (mysqli_num_rows($students) > 0): ?>
+            <table>
+                <tr><th>ID</th><th>Name</th><th>Age</th><th>Course</th></tr>
+                <?php while ($row = mysqli_fetch_assoc($students)): ?>
+                    <tr>
+                        <td><?= $row['id'] ?></td>
+                        <td><?= htmlspecialchars($row['name']) ?></td>
+                        <td><?= $row['age'] ?></td>
+                        <td><?= htmlspecialchars($row['course']) ?></td>
+                    </tr>
+                <?php endwhile; ?>
+            </table>
+        <?php else: ?>
+            <p>No student records found.</p>
+        <?php endif; ?>
+        <?php mysqli_close($conn); ?>  <!-- close connection -->
     </div>
 </body>
 </html>

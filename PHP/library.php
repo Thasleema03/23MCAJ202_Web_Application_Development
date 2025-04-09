@@ -1,38 +1,61 @@
 <?php
-// DB connection
+// DB connection credentials
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "book_store";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+// Create connection to MySQL server (without selecting DB yet)
+$conn = new mysqli($servername, $username, $password);
+
+// Check server connection
 if ($conn->connect_error) {
     die("<div class='error'>Connection failed: " . $conn->connect_error . "</div>");
+}
+
+// Create database if not exists
+$dbCreateSQL = "CREATE DATABASE IF NOT EXISTS $dbname";
+if (!$conn->query($dbCreateSQL)) {
+    die("<div class='error'>Database creation failed: " . $conn->error . "</div>");
+}
+
+// Select the created/available DB
+$conn->select_db($dbname);
+
+// Create table if not exists
+$tableCreateSQL = "CREATE TABLE IF NOT EXISTS books (
+    accession_number INT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    authors VARCHAR(255),
+    edition VARCHAR(100),
+    publisher VARCHAR(255)
+)";
+if (!$conn->query($tableCreateSQL)) {
+    die("<div class='error'>Table creation failed: " . $conn->error . "</div>");
 }
 
 $message = "";
 $searchResults = "";
 $searchDone = false;
 
-// Message on redirect success
+// Show success message if redirected after book insert
 if (isset($_GET['msg']) && $_GET['msg'] == 'success') {
     $message = "<div class='success'>✅ Book added successfully!</div>";
-    // Remove query from URL using JS
     echo "<script>history.replaceState(null, null, window.location.pathname);</script>";
 }
 
-// Validation helper
+// Text validation function
 function isValidText($text) {
     return preg_match("/^[a-zA-Z0-9\s,.\-]+$/", $text);
 }
 
-// Back button
+// Back to home from search
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['back_to_home'])) {
     header("Location: " . $_SERVER['PHP_SELF']);
     exit();
 }
 
-// Insert book
+// Add book
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_book'])) {
     $acc_no = $_POST['accession_number'];
     $title = trim($_POST['title']);
@@ -49,13 +72,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_book'])) {
         $errors[] = "Title can only contain letters, numbers, spaces, commas, hyphens, and dots.";
     }
     if (!isValidText($authors)) {
-        $errors[] = "Authors can only contain letters, numbers, spaces, commas, hyphens, and dots.";
+        $errors[] = "Authors can only contain valid characters.";
     }
     if (!isValidText($edition)) {
-        $errors[] = "Edition can only contain letters, numbers, spaces, hyphens, and dots.";
+        $errors[] = "Edition can only contain valid characters.";
     }
     if (!isValidText($publisher)) {
-        $errors[] = "Publisher can only contain letters, numbers, spaces, hyphens, and dots.";
+        $errors[] = "Publisher can only contain valid characters.";
     }
 
     if (empty($errors)) {
@@ -104,6 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search_book'])) {
     $stmt->close();
 }
 
+//  Close DB connection
 $conn->close();
 ?>
 
@@ -112,6 +136,7 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <title>Library Management</title>
+    <!-- CSS -->
     <style>
         body {
             font-family: "Segoe UI", sans-serif;
@@ -230,7 +255,6 @@ $conn->close();
 </head>
 <body>
 <div class="container">
-
     <?php if (!$searchDone): ?>
         <!-- Search Bar -->
         <form class="search-row" method="POST">
@@ -271,7 +295,6 @@ $conn->close();
             </form>
         </div>
     <?php endif; ?>
-
 </div>
 </body>
 </html>
